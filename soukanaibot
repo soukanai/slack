@@ -2,7 +2,7 @@
 
 function doPost(e) {
   
-  var slackApp = SlackApp.create("xoxb-1178519980918-1277387324436-sTaEUlxjpu36bl6d1hvCCMbF"); 
+  var slackApp = SlackApp.create("xoxb-1178519980918-1277387324436-YSMpltA0H6Zql0QqemqE3u58"); 
 
   var spreadsheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1IBaEilr-4BM9FnlGR7hwPAByfiVwdmJ7MWMPKtNB-GI/edit#gid=2099584798");
   var sheet = spreadsheet.getSheetByName("Record 01");
@@ -36,27 +36,27 @@ function doPost(e) {
     var messageValue = message.getValue();
 
     if (dateValue > 0) {
-
+      
       var formattedDateValue = Utilities.formatDate(dateValue,'GMT','yyyy/MM/dd');
       post = "Latest feedback request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue;
-    
+      
+      if (lastRow % 50 == 0) {
+        
+        var pdf = spreadsheet.getAs("application/pdf").setName(sheetName + "pdf");
+        
+        var mail = "soukanaimusic@outlook.com";
+        var subject = "Feedback Request";
+        var body = sheetName + ".pdf" + "attached";
+        var attachment = {attachments: pdf};
+        
+        GmailApp.sendEmail(mail, subject, body, attachment);
+        post = "Latest feedback request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue + "\n" + "It reached " + lastRow + " feedback requests so they were sent as a pdf";
+        
+      }
+      
     }
     
   }
-
-   if (lastRow == 50) {
-      
-      var pdf = spreadsheet.getAs("application/pdf").setName(sheetName + "pdf");
-      
-      var mail = "soukanaimusic@outlook.com";
-      var subject = "Feedback Request";
-      var body = sheetName + ".pdf" + "attached";
-      var attachment = {attachments: pdf};
-      
-      GmailApp.sendEmail(mail, subject, body, attachment);
-      post = "It reached 50 feedback requests so they were sent as a pdf";
-    
-    }
   
   slackApp.chatPostMessage("#general", post);
   
