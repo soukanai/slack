@@ -2,60 +2,62 @@
 
 function doPost(e) {
   
-  //token
-  var slackApp = SlackApp.create("xoxb-1178519980918-1277387324436-vqJrx0qqmlDXugC6TtznifmV"); 
-  
-  //sheet/spreadsheet
+  var slackApp = SlackApp.create("xoxb-1178519980918-1277387324436-sTaEUlxjpu36bl6d1hvCCMbF"); 
+
   var spreadsheet = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1IBaEilr-4BM9FnlGR7hwPAByfiVwdmJ7MWMPKtNB-GI/edit#gid=2099584798");
   var sheet = spreadsheet.getSheetByName("Record 01");
   
-  //last row
+  var sheetName = spreadsheet.getName();
+  
   var lastRow = sheet.getLastRow();
   
-  //channel
   var channelId = "#general";
-  
-  //username
   var userName = "soukanaibot";
- 
   var post;
   
   for (var i=2; i<=lastRow; i++) {
     
-    //row a
     var date = sheet.getRange(i,1);
     var dateValue = date.getValue();
     
-    //row b
     var artistName = sheet.getRange(i,2);
     var artistNameValue = artistName.getValue();
-    
-    //row c
+  
     var trackTitle = sheet.getRange(i,3);
     var trackTitleValue = trackTitle.getValue();
-    
-    //row d
+
     var streamingLink = sheet.getRange(i,4);
     var streamingLinkValue = streamingLink.getValue();
-    
-    //row e
+
     var email = sheet.getRange(i,5);
     var emailValue = email.getValue();
     
-    //row d
     var message = sheet.getRange(i,6);
     var messageValue = message.getValue();
 
     if (dateValue > 0) {
-      
-      //format date
+
       var formattedDateValue = Utilities.formatDate(dateValue,'GMT','yyyy/MM/dd');
-      //message
-      post = "Latest Feedback Request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue;
-      
+      post = "Latest feedback request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue;
+    
     }
-   
+    
   }
+
+   if (lastRow == 50) {
+      
+      var pdf = spreadsheet.getAs("application/pdf").setName(sheetName + "pdf");
+      
+      var mail = "soukanaimusic@outlook.com";
+      var subject = "Feedback Request";
+      var body = sheetName + ".pdf" + "attached";
+      var attachment = {attachments: pdf};
+      
+      GmailApp.sendEmail(mail, subject, body, attachment);
+      post = "It reached 100 feedback requests so they were sent as a pdf";
+    
+    }
   
   slackApp.chatPostMessage("#general", post);
+  
 }
