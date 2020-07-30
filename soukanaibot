@@ -54,7 +54,7 @@ function doPost(e) {
       var attachment = {attachments: pdf};
       
       GmailApp.sendEmail(mail, subject, body, attachment);
-      post = "It reached 100 feedback requests so they were sent as a pdf";
+      post = "It reached 50 feedback requests so they were sent as a pdf";
     
     }
   
