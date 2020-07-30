@@ -1,4 +1,4 @@
-//Slack Bot / Sou Kanai Music
+//Slack Bot / Sou Kanai Music (https://join.slack.com/t/soukanaimusic/shared_invite/zt-g4xl2j92-Rl93l5UX0Zc0Ajin2QQ0fA)
 
 function doPost(e) {
   
