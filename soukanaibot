@@ -21,7 +21,7 @@ function doPost(e) {
   var userName = "soukanaibot";
   var post;
   
-  //各列を取得
+  //各列のセルの値を取得
   for (var i=2; i<=lastRow; i++) {
     
     var date = sheet.getRange(i,1);
