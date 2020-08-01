@@ -1,4 +1,4 @@
-//Slack Bot
+//Sou Kanai Music Slack Bot
 
 function doPost(e) {
   
@@ -46,10 +46,10 @@ function doPost(e) {
       
       //日付をフォーマット
       var formattedDateValue = Utilities.formatDate(dateValue,'GMT','yyyy/MM/dd');
-      //メッセージ
+      //投稿メッセージ
       post = "Latest feedback request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue;
       
-      //50通ごとにPDF化してメールに送信
+      //50行ごとにPDFを作成してメールに送信
       if (lastRow % 50 == 0) {
         
         //PDFを作成
@@ -63,7 +63,7 @@ function doPost(e) {
         
         //メールに送信
         GmailApp.sendEmail(mail, subject, body, attachment);
-        //メッセージ
+        //投稿メッセージ
         post = "Latest feedback request\n" + formattedDateValue + "\n" + "Artist Name: " + artistNameValue + "\n" + "Track Title: " + trackTitleValue + "\n" + "Streaming Link: " + streamingLinkValue + "\n" + "E-mail: " + emailValue + "\n" + "Message: " + "\n" + messageValue + "\n" + "It reached " + lastRow + " feedback requests so they were sent as a pdf";
         
       }
