@@ -1,4 +1,4 @@
-//Sou Kanai Music Slack Bot
+//Sou Kanai Bot (Slack)
 
 function doPost(e) {
   
