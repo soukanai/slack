@@ -1,4 +1,5 @@
 //Sou Kanai Bot (Slack)
+//音楽制作及びクリエイティブ業務の共同作業用Slackワークスペースの為のチャットボットです。
 
 function doPost(e) {
   
